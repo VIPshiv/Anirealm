@@ -27,4 +27,8 @@ app.use('/api/profiles', require('./routes/profiles'));
 app.use('/api/entries', require('./routes/entries'));
 app.use('/api/search', require('./routes/proxy'));
 
-app.listen(PORT, () => console.log(`Backend Proxy running on port ${PORT}`));
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`Backend Proxy running on port ${PORT}`));
+}
+
+module.exports = app;

@@ -64,7 +64,7 @@ export function JournalProvider({ children }: { children: ReactNode }) {
   const fetchEntries = async () => {
     if (!currentProfile) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/entries`, {
+      const res = await fetch('/api/entries', {
         headers: { 
           'x-auth-token': token!,
           'x-profile-id': currentProfile._id
@@ -130,7 +130,7 @@ export function JournalProvider({ children }: { children: ReactNode }) {
           readChapters: entry.readChapters
         };
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/entries`, {
+        const res = await fetch('/api/entries', {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -161,7 +161,7 @@ export function JournalProvider({ children }: { children: ReactNode }) {
   const removeEntry = async (id: number | string) => {
     if (user && token && currentProfile && typeof id === 'string') {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/entries/${id}`, {
+        const res = await fetch(`/api/entries/${id}`, {
           method: 'DELETE',
           headers: { 
             'x-auth-token': token,
@@ -192,7 +192,7 @@ export function JournalProvider({ children }: { children: ReactNode }) {
        };
        
        try {
-         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/entries/${id}`, {
+        const res = await fetch(`/api/entries/${id}`, {
             method: 'PUT',
             headers: { 
               'Content-Type': 'application/json',

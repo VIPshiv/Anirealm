@@ -23,14 +23,16 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
+    const suwayomiUrl = process.env.SUWAYOMI_URL || 'http://127.0.0.1:4567';
+
     return [
       {
         source: '/api/suwayomi-graphql',
-        destination: 'http://127.0.0.1:4567/api/graphql',
+        destination: `${suwayomiUrl}/api/graphql`,
       },
       {
         source: '/api/suwayomi/:path*',
-        destination: 'http://127.0.0.1:4567/api/v1/:path*',
+        destination: `${suwayomiUrl}/api/v1/:path*`,
       },
     ];
   },

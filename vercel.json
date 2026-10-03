@@ -1,0 +1,46 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "animee": {
+      "root": "animee",
+      "framework": "nextjs"
+    },
+    "backend": {
+      "root": "backend",
+      "framework": "express",
+      "entrypoint": "server.js"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/proxy",
+      "destination": {
+        "service": "animee"
+      }
+    },
+    {
+      "source": "/api/suwayomi-graphql",
+      "destination": {
+        "service": "animee"
+      }
+    },
+    {
+      "source": "/api/suwayomi/:path*",
+      "destination": {
+        "service": "animee"
+      }
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": {
+        "service": "backend"
+      }
+    },
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "animee"
+      }
+    }
+  ]
+}

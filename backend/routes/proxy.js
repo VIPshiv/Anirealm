@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const SUWA_BASE = "http://127.0.0.1:4567"; 
+const SUWA_BASE = process.env.SUWAYOMI_URL || "http://127.0.0.1:4567";
 
 // --- Helper Functions ---
 

@@ -29,6 +29,8 @@ Before running the project, ensure you have the following installed:
 
 ## Getting Started
 
+For Vercel deployment, the repository root contains a multi-service `vercel.json` that exposes the Next.js app publicly and routes `/api/*` to the Express backend. Configure `MONGO_URI`, `JWT_SECRET`, and `SUWAYOMI_URL` as Vercel environment variables. `SUWAYOMI_URL` must point to a publicly reachable Suwayomi instance; the localhost value below is for local development only.
+
 To run the full application, you need to start the backend, the frontend, and the Suwayomi server.
 
 ### 1. Backend Setup
@@ -65,7 +67,8 @@ To run the full application, you need to start the backend, the frontend, and th
     ```
 3.  Create a `.env.local` file in `animee/` with the API URL:
     ```env
-    NEXT_PUBLIC_API_URL=http://localhost:5000
+    # The frontend uses same-origin /api/* routes in development and production.
+    NEXT_PUBLIC_API_URL=
     ```
 4.  The app is configured to proxy API requests:
     -   Backend API: `http://localhost:5000` (Default)

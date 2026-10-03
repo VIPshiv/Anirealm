@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchUser = async (token: string) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/user`, {
+      const res = await fetch('/api/auth/user', {
         headers: { 'x-auth-token': token }
       });
       if (res.ok) {

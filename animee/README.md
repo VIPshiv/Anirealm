@@ -17,7 +17,8 @@ This is the frontend application for the Anirealm platform, built with **Next.js
 
 2.  Create a `.env.local` file in the root of `animee/`:
     ```env
-    NEXT_PUBLIC_API_URL=http://localhost:5000
+    # The frontend uses same-origin /api/* routes in development and production.
+    NEXT_PUBLIC_API_URL=
     ```
 
 3.  Start the development server:

@@ -36,7 +36,7 @@ export default function ProfilePage() {
 
   const fetchProfiles = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles`, {
+      const res = await fetch('/api/profiles', {
         headers: { 'x-auth-token': token! }
       });
       if (res.ok) {
@@ -64,7 +64,7 @@ export default function ProfilePage() {
     }
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profiles`, {
+      const res = await fetch('/api/profiles', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

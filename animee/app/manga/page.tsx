@@ -223,7 +223,7 @@ function SourcesTab({ libraryManga, onLibraryUpdate }: { libraryManga: SuwayomiM
     try {
       // Use the new Backend Proxy for resilient searching
       const sourceIds = pinnedSources.join(',');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/search?q=${encodeURIComponent(globalQuery)}&sources=${encodeURIComponent(sourceIds)}`);
+      const response = await fetch(`/api/search?q=${encodeURIComponent(globalQuery)}&sources=${encodeURIComponent(sourceIds)}`);
       
       if (!response.ok) {
         throw new Error('Search failed');

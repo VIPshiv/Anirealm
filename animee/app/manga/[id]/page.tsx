@@ -72,7 +72,7 @@ export default function MangaDetails() {
       }
 
       const sourceIds = sourcesToSearch.join(',');
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/search?q=${encodeURIComponent(manga.title)}&sources=${encodeURIComponent(sourceIds)}`);
+      const response = await fetch(`/api/search?q=${encodeURIComponent(manga.title)}&sources=${encodeURIComponent(sourceIds)}`);
       
       if (!response.ok) throw new Error('Search failed');
 

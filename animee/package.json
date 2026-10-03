@@ -19,6 +19,7 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
     "@types/three": "^0.181.0",
+    "@vercel/speed-insights": "^2.0.0",
     "anigo-anime-api": "^1.0.3",
     "axios": "^1.13.2",
     "cheerio": "^1.1.2",

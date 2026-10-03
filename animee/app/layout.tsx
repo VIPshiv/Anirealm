@@ -48,3 +48,16 @@ export default function RootLayout({
     </html>
   );
 }
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {/* your existing Providers / Chakra wrapper stays as is */}
+        {children}
+        <SpeedInsights />
+      </body>
+    </html>
+  );
+}

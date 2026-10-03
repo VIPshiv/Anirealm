@@ -265,7 +265,7 @@ function LibraryContent() {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const res = await getAnimeGenres('genres');
+        const res = await getAnimeGenres();
         setGenres(res.data);
       } catch (error) {
         console.error('Error fetching genres:', error);

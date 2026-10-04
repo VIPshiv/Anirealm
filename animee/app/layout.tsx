@@ -5,6 +5,7 @@ import { Providers } from "./providers";
 import SmoothScrolling from "@/components/SmoothScrolling";
 import CursorParticles from "@/components/CursorParticles";
 import { ColorModeScript } from '@chakra-ui/react';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import theme from './theme';
 
 const inter = Inter({
@@ -44,18 +45,6 @@ export default function RootLayout({
             {children}
           </SmoothScrolling>
         </Providers>
-      </body>
-    </html>
-  );
-}
-import { SpeedInsights } from "@vercel/speed-insights/next";
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>
-        {/* your existing Providers / Chakra wrapper stays as is */}
-        {children}
         <SpeedInsights />
       </body>
     </html>

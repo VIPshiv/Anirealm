@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { JikanAnime, JikanEpisode } from '@/lib/anilist';
-import { getStreamingSource, getBackupStreamingSource } from '@/app/actions/anime'; // Only getStreamingSource needed here
+import { getStreamingSource } from '@/app/actions/anime';
 import { AnimeSource, ServerData } from '@/lib/consumet';
 import { useJournal } from '@/context/JournalContext';
 import { ArrowLeft, ArrowRight, SkipForward, Check, Monitor, Download } from 'lucide-react';
@@ -75,23 +75,9 @@ export default function WatchClient({ anime, episodes, animeId, currentEpNum, db
       setStreamSource(null);
       
       try {
-        setLoadingStep('Connecting to server (AnimePahe)...');
+        setLoadingStep('Connecting to Sanka anime API...');
         
-        let result = await getStreamingSource(animeId, String(currentEpNum));
-        
-        // If primary fails or returns no servers, try backup
-        if (!result.success || !result.data || result.data.length === 0) {
-            setLoadingStep('Primary server unresponsive. Switching to backup (Hianime)...');
-            console.log("Primary failed, trying backup...");
-            
-            // Use the anime title from props strictly for backup search
-            const backupTitle = anime.title_english || anime.title;
-            const backupResult = await getBackupStreamingSource(backupTitle, String(currentEpNum));
-            
-            if (backupResult.success && backupResult.data && backupResult.data.length > 0) {
-                result = backupResult; // Use backup result as the final result
-            }
-        }
+        const result = await getStreamingSource(animeId, String(currentEpNum));
         
         if (result.success) {
             const serversData = result.data;

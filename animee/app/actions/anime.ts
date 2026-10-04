@@ -34,20 +34,12 @@ export async function getStreamingAnime(title: string): Promise<ActionResult<{ a
 
 export async function getStreamingEpisodes(animeId: string, title?: string): Promise<ActionResult<AnimeEpisode[]>> {
   try {
+    void title;
     const idResult = IdSchema.safeParse(animeId);
     if (!idResult.success) return { success: false, error: 'Invalid Anime ID' };
     
-    let episodes = await animeProvider.getEpisodes(idResult.data);
+    const episodes = await animeProvider.getEpisodes(idResult.data);
     
-    // If primary provider return empty, try backup if title is provided
-    if ((!episodes || episodes.length === 0) && title) {
-        console.log("Primary episodes empty, trying backup...");
-        const backupEpisodes = await animeProvider.getBackupEpisodes(title);
-        if (backupEpisodes.length > 0) {
-            episodes = backupEpisodes;
-        }
-    }
-
     return { success: true, data: episodes };
   } catch (error) {
     console.error('Failed to get episodes:', error);
@@ -79,16 +71,6 @@ export async function getStreamingSource(animeId: string, episodeNum: string): P
   } catch (error) {
     console.error('Failed to get sources:', error);
     return { success: false, error: 'Failed to fetch streaming sources' };
-  }
-}
-
-export async function getBackupStreamingSource(title: string, episodeNum: string): Promise<ActionResult<ServerData[]>> {
-  try {
-     const backup = await animeProvider.getBackupStream(title, Number(episodeNum));
-     return { success: true, data: backup };
-  } catch (error) {
-     console.error('Failed to get backup sources:', error);
-     return { success: false, error: 'Failed to fetch backup sources' };
   }
 }
 

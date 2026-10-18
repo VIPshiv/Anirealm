@@ -12,41 +12,21 @@ import {
   BrowseByGenreSection,
   UpcomingSection
 } from "@/components/HomeSections";
-import { Box, useColorModeValue, Center, Spinner } from "@chakra-ui/react";
+import { Box, useColorModeValue, Spinner } from "@chakra-ui/react";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 // Use Incremental Static Regeneration (ISR) to cache the page for 1 hour (3600 seconds)
 // This improves performance significantly compared to force-dynamic
 
 export default function Home() {
-  const [mounted, setMounted] = useState(false);
   const bgVal = useColorModeValue('gray.50', 'black');
   const contentBgVal = useColorModeValue('white', 'black');
-  
-  // Prevent hydration mismatch by defaulting to server-rendered value (black) until mounted
-  const bg = mounted ? bgVal : 'black';
-  const contentBg = mounted ? contentBgVal : 'black';
+  const bg = bgVal;
+  const contentBg = contentBgVal;
 
-  const { token, currentProfile, loading } = useAuth();
-  const router = useRouter();
+  const { loading } = useAuth();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!loading) {
-      if (!token) {
-        router.push('/login');
-      } else if (!currentProfile) {
-        router.push('/profile');
-      }
-    }
-  }, [token, currentProfile, loading, router]);
-
-  if (loading || !token || !currentProfile) {
+  if (loading) {
     return (
       <Box bg={bg} minH="100vh" display="flex" alignItems="center" justifyContent="center">
         <Spinner size="xl" color="pink.500" thickness="4px" />

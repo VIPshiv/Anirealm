@@ -5,10 +5,12 @@ import { getChapterPages, getMangaDetails, SuwayomiManga } from '@/lib/suwayomi'
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 export default function MangaReader() {
   const params = useParams();
   const router = useRouter();
+  const { token, loading: authLoading } = useAuth();
   const mangaId = Number(params.id);
   const chapterId = Number(params.chapterId); // Note: folder structure needs to be [id]/watch/[chapterId]
 
@@ -22,8 +24,14 @@ export default function MangaReader() {
   const borderColor = useColorModeValue('gray.200', 'whiteAlpha.100');
 
   useEffect(() => {
+    if (!authLoading && !token) {
+      router.replace('/login');
+    }
+  }, [authLoading, token, router]);
+
+  useEffect(() => {
     const fetchData = async () => {
-      if (!mangaId || !chapterId) return;
+      if (authLoading || !token || !mangaId || !chapterId) return;
       try {
         const [mangaRes, pagesRes] = await Promise.all([
           getMangaDetails(mangaId),
@@ -38,9 +46,9 @@ export default function MangaReader() {
       }
     };
     fetchData();
-  }, [mangaId, chapterId]);
+  }, [mangaId, chapterId, authLoading, token]);
 
-  if (loading) {
+  if (loading || authLoading || !token) {
     return (
       <Center h="100vh" bg={bg}>
         <Spinner size="xl" color="pink.500" />

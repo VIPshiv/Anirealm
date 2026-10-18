@@ -8,7 +8,8 @@ interface ApiAnime {
   poster?: string;
   status?: string;
   releaseDate?: string;
-  episodes?: Array<{ title?: string; episodeId?: string; href?: string; number?: number }>;
+  episodes?: number | null;
+  episodeList?: Array<{ title?: string; episodeId?: string; href?: string; eps?: number }>;
   synopsis?: { paragraphs?: string[] };
   genreList?: Array<{ title?: string }>;
 }
@@ -106,9 +107,9 @@ export const animeProvider = {
   getEpisodes: async (id: string): Promise<AnimeEpisode[]> => {
     try {
       const info = await fetchApi<ApiAnime>(`/anime/anime/${encodeURIComponent(id)}`);
-      return (info.episodes || []).map((episode, index) => ({
+      return (info.episodeList || []).map((episode, index) => ({
         id: episode.episodeId || slugFromHref(episode.href) || '',
-        number: episode.number || index + 1,
+        number: episode.eps || index + 1,
         title: episode.title,
       })).filter((episode) => episode.id);
     } catch (err) {

@@ -11,6 +11,7 @@ import { JikanAnime, JikanEpisode } from '@/lib/anilist';
 import { getStreamingSource } from '@/app/actions/anime';
 import { AnimeSource, ServerData } from '@/lib/consumet';
 import { useJournal } from '@/context/JournalContext';
+import { useAuth } from '@/context/AuthContext';
 import { ArrowLeft, ArrowRight, SkipForward, Check, Monitor, Download } from 'lucide-react';
 import CommentSection from '@/components/CommentSection';
 import { FilterMenu } from '@/components/FilterMenu';
@@ -29,10 +30,17 @@ interface WatchClientProps {
 export default function WatchClient({ anime, episodes, animeId, currentEpNum, dbId, availableEpisodes }: WatchClientProps) {
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
+  const { token, loading: authLoading } = useAuth();
   
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!authLoading && !token) {
+      router.replace('/login');
+    }
+  }, [authLoading, token, router]);
 
   const toast = useToast();
   const { updateProgress, getEntry, addEntry } = useJournal();
@@ -63,6 +71,8 @@ export default function WatchClient({ anime, episodes, animeId, currentEpNum, db
   // 1. Fetch Stream Source (Client Side Only - depends on Episode Selection)
   useEffect(() => {
     const fetchStream = async () => {
+      if (authLoading || !token) return;
+
       if (!animeId || !currentEpNum) {
           setLoadingStep('Stream not available.');
           setStreamError(true);
@@ -114,7 +124,7 @@ export default function WatchClient({ anime, episodes, animeId, currentEpNum, db
       }
     };
     fetchStream();
-  }, [animeId, currentEpNum, toast, anime]); // Removed id/updateProgress deps that weren't strictly needed for fetching
+  }, [animeId, currentEpNum, toast, anime, authLoading, token]); // Removed id/updateProgress deps that weren't strictly needed for fetching
 
   // 2. Intro Skip Logic
   useEffect(() => {
@@ -188,7 +198,7 @@ export default function WatchClient({ anime, episodes, animeId, currentEpNum, db
       return `/api/proxy?url=${encodedUrl}&referer=${encodedReferer}`;
   };
 
-  if (!mounted) return null;
+  if (!mounted || authLoading || !token) return null;
 
   return (
     <Box minH="100vh" bg={mainBg} pb={10}>
@@ -238,7 +248,7 @@ export default function WatchClient({ anime, episodes, animeId, currentEpNum, db
                  ) : (
                     <iframe 
                       key={streamSource.url}
-                      src={streamSource.url} 
+                       src={getProxiedUrl(streamSource.url)} 
                       width="100%" 
                       height="100%" 
                       allowFullScreen 

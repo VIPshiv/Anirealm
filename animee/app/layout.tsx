@@ -4,9 +4,8 @@ import "./globals.css";
 import { Providers } from "./providers";
 import SmoothScrolling from "@/components/SmoothScrolling";
 import CursorParticles from "@/components/CursorParticles";
-import { ColorModeScript } from '@chakra-ui/react';
+import Script from 'next/script';
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import theme from './theme';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,7 +37,9 @@ export default function RootLayout({
         suppressHydrationWarning
         style={{ fontFamily: 'var(--font-potta-one), sans-serif' }}
       >
-        <ColorModeScript initialColorMode="dark" />
+        <Script id="chakra-color-mode" strategy="beforeInteractive">
+          {`(function(){try{var mode=localStorage.getItem('chakra-ui-color-mode')||'dark';document.documentElement.dataset.theme=mode;document.documentElement.style.colorScheme=mode;}catch(error){}})();`}
+        </Script>
         <Providers>
           <CursorParticles />
           <SmoothScrolling>

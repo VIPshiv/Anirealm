@@ -27,7 +27,6 @@ import { useRouter } from 'next/navigation';
 import { Sun, Moon, Mail, Lock, User, Eye, EyeOff, Sparkles } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
-import NextLink from 'next/link';
 
 const MotionBox = motion(Box);
 
@@ -398,11 +397,6 @@ export default function LoginPage() {
                 Google
               </Button>
               
-              <Flex justify="center" mt={4}>
-                <Link as={NextLink} href="/" color={subTextColor} fontSize="sm" _hover={{ color: 'pink.400' }}>
-                  ← Back to Home
-                </Link>
-              </Flex>
             </VStack>
           </MotionBox>
         </Box>

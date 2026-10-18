@@ -171,7 +171,7 @@ const Logo = () => {
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
-  const { currentProfile } = useAuth();
+  const { currentProfile, token } = useAuth();
   const { addEntry, entries } = useJournal();
   
   const {
@@ -383,7 +383,7 @@ export default function Navbar() {
           <NavHoverBox>
             <Button
               as={NextLink}
-              href="/profile"
+              href={token ? "/profile" : "/login"}
               variant={'ghost'}
               color={useColorModeValue('gray.600', 'gray.300')}
               _hover={{ bg: 'transparent', color: useColorModeValue('pink.600', 'pink.300') }}

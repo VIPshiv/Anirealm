@@ -24,7 +24,7 @@ export default function Home() {
   const bg = bgVal;
   const contentBg = contentBgVal;
 
-  const { loading } = useAuth();
+  const { loading, token } = useAuth();
 
   if (loading) {
     return (
@@ -39,7 +39,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Box position="relative" zIndex={1} bg={contentBg} mt="-50px" pt="50px" borderTopRadius="3xl">
-        <ContinueWatchingSection />
+        {token && <ContinueWatchingSection />}
         <SeasonalSection />
         <ScrollDrivenTopAiring />
         <MostPopularSection />

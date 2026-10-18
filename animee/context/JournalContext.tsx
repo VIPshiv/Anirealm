@@ -42,24 +42,9 @@ export function JournalProvider({ children }: { children: ReactNode }) {
     if (user && token && currentProfile) {
       fetchEntries();
     } else if (!user) {
-      const saved = localStorage.getItem('anirealm-journal');
-      if (saved) {
-        setEntries(JSON.parse(saved));
-      } else {
-        setEntries([
-          { id: 1, type: 'anime', animeId: 21, title: 'One Piece', episode: 1080, status: 'Watching', rating: 10, watchedEpisodes: [], image: 'https://cdn.myanimelist.net/images/anime/6/73245.jpg' },
-          { id: 2, type: 'anime', animeId: 38000, title: 'Demon Slayer: Kimetsu no Yaiba', episode: 1, status: 'Completed', rating: 8, watchedEpisodes: [], image: 'https://cdn.myanimelist.net/images/anime/1286/99889.jpg' },
-        ]);
-      }
+      setEntries([]);
     }
   }, [user, token, currentProfile]);
-
-  // Save to local storage on change if not logged in
-  useEffect(() => {
-    if (!user) {
-      localStorage.setItem('anirealm-journal', JSON.stringify(entries));
-    }
-  }, [entries, user]);
 
   const fetchEntries = async () => {
     if (!currentProfile) return;
